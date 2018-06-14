@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View, ViewPropTypes,I18nManager } from 'react-native'
+import { StyleSheet, View, ViewPropTypes, I18nManager } from 'react-native'
 
 // compatability for react-native versions < 0.44
 const ViewPropTypesStyle = ViewPropTypes
   ? ViewPropTypes.style
   : View.propTypes.style
-let direction = I18nManager.isRTL? 'right' : 'left';
+let direction = I18nManager.isRTL ? 'right' : 'left';
 const styles = StyleSheet.create({
   outerCircle: {
     justifyContent: 'center',
@@ -45,7 +45,8 @@ export default class PercentageCircle extends Component {
     percent: PropTypes.number.isRequired, // eslint-disable-line react/no-unused-prop-types
     children: PropTypes.node,
     containerStyle: ViewPropTypesStyle,
-    outerCircleStyle: ViewPropTypesStyle
+    outerCircleStyle: ViewPropTypesStyle,
+    startDegree: PropTypes.number
   };
 
   static defaultProps = {
@@ -55,6 +56,7 @@ export default class PercentageCircle extends Component {
     borderWidth: 2,
     children: null,
     containerStyle: null,
+    startDegree: 0
   };
 
   constructor(props) {
@@ -73,11 +75,11 @@ export default class PercentageCircle extends Component {
     let halfCircle2Degree
     // degrees indicate the 'end' of the half circle, i.e. they span (degree - 180, degree)
     if (needHalfCircle2) {
-      halfCircle1Degree = 180
-      halfCircle2Degree = percentToDegrees(percent)
+      halfCircle1Degree = 360
+      halfCircle2Degree = 180 + percentToDegrees(percent)
     } else {
-      halfCircle1Degree = percentToDegrees(percent)
-      halfCircle2Degree = 0
+      halfCircle1Degree = 180 + percentToDegrees(percent)
+      halfCircle2Degree = 180
     }
 
     return {
